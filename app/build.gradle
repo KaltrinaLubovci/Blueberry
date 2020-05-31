@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+//apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -11,13 +15,25 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        compileOptions {
+            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_1_8
+        }
     }
 }
+
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -26,4 +42,100 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //material design
+    implementation 'com.google.android.material:material:1.0.0'
+
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //javax
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation('com.github.bumptech.glide:okhttp3-integration:4.11.0') {
+        exclude group: 'glide-parent'
+    }
+
+    // Dagger 2
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+    //Retrofit 2
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation "com.squareup.okhttp3:okhttp:$retrofit_version"
+
+    //lifecycle
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    //easy permissions
+    implementation 'pub.devrel:easypermissions:2.0.0'
+
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    //compress menuOptionImage
+    implementation group: 'id.zelory', name: 'compressor', version: '2.1.0'
+
+    //circle menuOptionImage view
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //exoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.1'
+
+    // Add the Firebase SDK for Crashlytics.
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+
+    //Room Database
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-guava:$room_version"
+
+    //autosize text to fit edittext
+    implementation 'com.github.ViksaaSkool:AutoFitEditText:53238e2d29'
+
+    //facebook sdk
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
+    //google sdk
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.squareup.okhttp:okhttp:2.6.0'
+    // Google Api Client library and Android extension
+    implementation 'com.google.api-client:google-api-client:1.22.0'
+    implementation 'com.google.api-client:google-api-client-android:1.22.0'
+
+    implementation 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
+
+    //pick image from gallery or take a new picture
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
+
+    //get photo orientation
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+
+    //google maps service
+    //google maps api key should be paid if app goes to production, because it will have a lot of requests
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation 'com.google.android.libraries.places:places:2.2.0'
+
+    //google maps clustering
+//    implementation 'com.google.maps.android:android-maps-utils:1.0.0'
+
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 }
