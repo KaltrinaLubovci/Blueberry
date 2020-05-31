@@ -1,2 +1,2 @@
 # Blueberry
-Blueberry - Movie and Music Android App
+Blueberry - Music Android App
