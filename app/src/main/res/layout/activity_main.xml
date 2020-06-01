@@ -4,6 +4,10 @@
 
         <import type="android.view.View" />
 
+        <variable
+            name="viewModel"
+            type="com.kl.blueberry.ui.MainViewModel" />
+
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
