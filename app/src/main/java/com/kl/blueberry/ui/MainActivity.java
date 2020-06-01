@@ -8,16 +8,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.kl.blueberry.R;
+import com.kl.blueberry.api.ApiService;
 import com.kl.blueberry.databinding.ActivityMainBinding;
 
-import java.io.IOException;
+import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    ApiService apiService;
 
     ActivityMainBinding binding;
 
@@ -26,14 +30,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AndroidInjection.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setViewModel(new MainViewModel());
+
 
         binding.btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Hello World!", Toast.LENGTH_SHORT).show();
+                //make api call
+//                binding.getViewModel().search(MainActivity.this, apiService, "eminem");
             }
         });
     }
+
+
 
 
 }
