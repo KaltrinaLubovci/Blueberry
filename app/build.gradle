@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -98,7 +98,7 @@ dependencies {
 
     // Add the Firebase SDK for Crashlytics.
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
 
     //Room Database
     implementation "androidx.room:room-runtime:$room_version"
@@ -110,15 +110,12 @@ dependencies {
     //autosize text to fit edittext
     implementation 'com.github.ViksaaSkool:AutoFitEditText:53238e2d29'
 
-    //facebook sdk
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-
     //google sdk
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.squareup.okhttp:okhttp:2.6.0'
     // Google Api Client library and Android extension
-    implementation 'com.google.api-client:google-api-client:1.22.0'
-    implementation 'com.google.api-client:google-api-client-android:1.22.0'
+//    implementation 'com.google.api-client:google-api-client:1.22.0'
+//    implementation 'com.google.api-client:google-api-client-android:1.22.0'
 
     implementation 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
 

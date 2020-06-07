@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     ApiService apiService;
 
+    String[] test = {"Test"};
     ActivityMainBinding binding;
 
     @Override
@@ -33,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
         binding.setViewModel(new MainViewModel());
 
 
+
         binding.btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //make api call
-//                binding.getViewModel().search(MainActivity.this, apiService, "eminem");
+                binding.getViewModel().search(MainActivity.this, apiService, "eminem");
             }
         });
     }
