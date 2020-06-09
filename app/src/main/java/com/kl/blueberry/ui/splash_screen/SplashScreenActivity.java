@@ -6,14 +6,22 @@ import androidx.databinding.DataBindingUtil;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.kl.blueberry.R;
 import com.kl.blueberry.databinding.SplashScreenActivityBinding;
+import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.ui.signin.SignInActivity;
+import com.kl.blueberry.utils.ParentActivity;
 
-public class SplashScreenActivity extends AppCompatActivity {
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public class SplashScreenActivity extends ParentActivity {
 
     SplashScreenActivityBinding binding;
 
@@ -22,10 +30,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.splash_screen_activity);
         binding.setViewModel(new SplashScreenViewModel());
-
         animateObjects();
+        onClicks();
     }
 
+
+    private void onClicks(){
+
+        binding.llLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OpenActivityEvent(new SignInActivity()));
+            }
+        });
+    }
 
     void animateObjects() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -73,7 +91,11 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(OpenActivityEvent openActivityEvent){
+        Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
+        startActivity(intent);
     }
 }
