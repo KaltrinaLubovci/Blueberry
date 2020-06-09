@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     Disposable disposable;
     void search(Context context, ApiService apiService, String singerName) {
-        disposable = apiService.searchSinger("f643cad6c4mshf49af7411cdc728p1d9a78jsn8ea65b3527c4", "eminem")
+        disposable = apiService.searchSinger("api_key_goes_here", "eminem")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
