@@ -14,6 +14,7 @@ import android.view.View;
 import com.kl.blueberry.R;
 import com.kl.blueberry.databinding.SplashScreenActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.ui.sign_up.SignUpActivity;
 import com.kl.blueberry.ui.signin.SignInActivity;
 import com.kl.blueberry.utils.ParentActivity;
 
@@ -41,6 +42,13 @@ public class SplashScreenActivity extends ParentActivity {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new OpenActivityEvent(new SignInActivity()));
+            }
+        });
+
+        binding.llSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new OpenActivityEvent(new SignUpActivity()));
             }
         });
     }
