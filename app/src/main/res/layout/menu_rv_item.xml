@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_item_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="17dp">
+        <ImageView
+            android:id="@+id/iv_menu_item_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_on_icon"/>
+
+        <TextView
+            android:id="@+id/tv_menu_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/colorDarkBlue"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_item_holder"
+        android:background="@color/colorDarkBlue"/>
+</RelativeLayout>

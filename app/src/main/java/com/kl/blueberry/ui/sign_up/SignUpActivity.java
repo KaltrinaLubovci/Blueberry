@@ -1,8 +1,5 @@
 package com.kl.blueberry.ui.sign_up;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -12,13 +9,17 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.kl.blueberry.R;
 import com.kl.blueberry.databinding.SignUpActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.utils.ParentActivity;
-import static com.kl.blueberry.utils.Usage.showToast;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import static com.kl.blueberry.utils.Usage.showToast;
 
 public class SignUpActivity extends ParentActivity {
 
@@ -28,6 +29,7 @@ public class SignUpActivity extends ParentActivity {
 
 
     SignUpActivityBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class SignUpActivity extends ParentActivity {
         onClicks();
     }
 
-    void init(){
+    void init() {
         etFullName = binding.layoutFullName.findViewById(R.id.et_text_input);
         etUserName = binding.layoutUsername.findViewById(R.id.et_text_input);
         etEmail = binding.layoutEmail.findViewById(R.id.et_text_input);
@@ -78,7 +80,7 @@ public class SignUpActivity extends ParentActivity {
     }
 
 
-    void customizeViews(){
+    void customizeViews() {
         etFullName.setHint(R.string.fullname);
         tvFullNameLabel.setText(R.string.fullname);
 
@@ -186,7 +188,7 @@ public class SignUpActivity extends ParentActivity {
         etConfirmPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     v.clearFocus();
                 }
                 return false;
@@ -195,40 +197,40 @@ public class SignUpActivity extends ParentActivity {
 
     }
 
-    private Boolean validateFields(){
+    private Boolean validateFields() {
         fullName = etFullName.getEditableText().toString();
         username = etUserName.getEditableText().toString();
         email = etEmail.getEditableText().toString();
         password = etPassword.getEditableText().toString();
         confirmPassword = etConfirmPassword.getEditableText().toString();
 
-        if (fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()){
+        if (fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
             showToast(this, "Fullname field cannot be empty!");
             return false;
-        } else if (!fullName.isEmpty() && username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()){
+        } else if (!fullName.isEmpty() && username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
             showToast(this, "Username field cannot be empty!");
             return false;
-        } else if (!fullName.isEmpty() && !username.isEmpty() && email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()){
+        } else if (!fullName.isEmpty() && !username.isEmpty() && email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
             showToast(this, "Email field cannot be empty!");
             return false;
-        } else if (!fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && password.isEmpty() && !confirmPassword.isEmpty()){
+        } else if (!fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && password.isEmpty() && !confirmPassword.isEmpty()) {
             showToast(this, "Password field cannot be empty!");
             return false;
-        } else if (!fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && confirmPassword.isEmpty()){
+        } else if (!fullName.isEmpty() && !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && confirmPassword.isEmpty()) {
             showToast(this, "Confirm password field cannot be empty!");
             return false;
-        }else if(fullName.isEmpty() && username.isEmpty() && email.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()){
+        } else if (fullName.isEmpty() && username.isEmpty() && email.isEmpty() && password.isEmpty() && confirmPassword.isEmpty()) {
             showToast(this, "Please fill all fields!");
             return false;
-        }else if(fullName.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
+        } else if (fullName.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showToast(this, "Please fill all fields");
             return false;
         } else {
-            if (password.length() < 8){
+            if (password.length() < 8) {
                 showToast(this, "Password to short (minimum 8 chars)!");
                 return false;
             } else {
-                if(!password.equals(confirmPassword)){
+                if (!password.equals(confirmPassword)) {
                     showToast(this, "Password and Confirm password doesn\'t match!");
                     return false;
                 } else {
@@ -238,18 +240,20 @@ public class SignUpActivity extends ParentActivity {
         }
     }
 
-    private void onClicks(){
+    private void onClicks() {
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateFields()){
+                if (validateFields()) {
                     showToast(SignUpActivity.this, "Success!");
+
                 }
             }
         });
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(OpenActivityEvent openActivityEvent){
+    public void onEvent(OpenActivityEvent openActivityEvent) {
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
         startActivity(intent);
     }
