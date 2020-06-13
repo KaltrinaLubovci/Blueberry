@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.kl.blueberry.R;
 import com.kl.blueberry.databinding.SignInActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.ui.MainActivity;
 import com.kl.blueberry.utils.ParentActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -46,6 +48,7 @@ public class SignInActivity extends ParentActivity {
             public void onClick(View v) {
                 if (validateData()){
                     showToast(SignInActivity.this, "Data is ok!");
+                    EventBus.getDefault().post(new OpenActivityEvent(new MainActivity()));
                 }
             }
         });
