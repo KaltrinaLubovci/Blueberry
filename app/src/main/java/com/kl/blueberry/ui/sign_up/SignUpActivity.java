@@ -3,18 +3,24 @@ package com.kl.blueberry.ui.sign_up;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kl.blueberry.R;
+import com.kl.blueberry.data.Database;
 import com.kl.blueberry.databinding.SignUpActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.model.register_user.User;
 import com.kl.blueberry.utils.ParentActivity;
 import static com.kl.blueberry.utils.Usage.showToast;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,7 +41,12 @@ public class SignUpActivity extends ParentActivity {
         binding.setViewModel(new SignUpViewModel());
         init();
         onClicks();
+
+
+
     }
+
+
 
     void init(){
         etFullName = binding.layoutFullName.findViewById(R.id.et_text_input);
@@ -237,20 +248,25 @@ public class SignUpActivity extends ParentActivity {
             }
         }
     }
-
     private void onClicks(){
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateFields()){
+                if (validateFields()) {
                     showToast(SignUpActivity.this, "Success!");
+                    binding.getViewModel().registerUser(SignUpActivity.this, fullName, username, email, password);
                 }
             }
         });
     }
+
+
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OpenActivityEvent openActivityEvent){
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
         startActivity(intent);
     }
+
 }
