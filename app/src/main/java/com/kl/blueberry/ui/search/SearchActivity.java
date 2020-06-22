@@ -58,30 +58,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void observeViewModel(){
 
-//        binding.getViewModel().loading.observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean loading) {
-//                if (loading){
-//                    binding.rlLoader.setVisibility(View.VISIBLE);
-//                } else {
-//                    binding.rlLoader.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-
-//        binding.getViewModel().playlistTitle.observe(this,new Observer<String>(){
-//            @Override
-//            public void onChanged(String s) {
-//                binding.tvTitle.setText(s);
-//            }
-//        });
-//             @Override
-//            public void onChanged(List<PlaylistTracksDataResponse> playlistTracksDataResponses) {
-//                playTracksArrList.addAll(playlistTracksDataResponses);
-//                playlistAdapter.setPlaylistData(playTracksArrList);
-//                System.out.println("trackssss sizeeee " + playTracksArrList.size());
-//            }
-
         binding.getViewModel().musicResponseList.observe(this, new Observer<List<SearchMusicDataResponse>>() {
 
             @Override
@@ -97,11 +73,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void onClicks(){
         binding.ivBack.setOnClickListener(onClick -> finish());
-
-//        binding.tvGoToDeezer.setOnClickListener(onClick -> {
-//            webView = binding.webviewDeezer;
-//            webView.loadUrl("https://www.deezer.com/en/playlist/1963962142");
-//        });
 
         binding.ivSearchNow.setOnClickListener(onClick -> {
 
