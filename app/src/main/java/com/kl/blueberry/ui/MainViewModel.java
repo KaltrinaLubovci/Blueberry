@@ -23,19 +23,6 @@ public class MainViewModel extends ViewModel {
 
     Disposable disposable;
 
-    void search(Context context, ApiService apiService, String singerName) {
-        disposable = apiService.searchSinger("api_key_goes_here", "eminem")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    Toast.makeText(context, "Success" + result.data[0].getTitle(), Toast.LENGTH_SHORT).show();
-                }, error -> {
-                    error.getStackTrace();
-                    Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
-                });
-
-    }
-
     public void refresh() {
         fetchHomeMenu();
     }

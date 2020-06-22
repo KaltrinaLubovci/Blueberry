@@ -1,29 +1,23 @@
-package com.kl.blueberry.ui.home;
-
-import android.content.Context;
-import android.widget.Toast;
+package com.kl.blueberry.ui.playlist;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.kl.blueberry.R;
 import com.kl.blueberry.api.ApiService;
-import com.kl.blueberry.model.navigation_drawer.MenuItems;
 import com.kl.blueberry.model.playlist.PlaylistTracksDataResponse;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.internal.operators.single.SingleDoOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
+
 /**
- * Created by Kaltrina Lubovci on 13,June,2020
+ * Created by Kaltrina Lubovci on 15,June,2020
  */
-public class HomeViewModel extends ViewModel {
+public class PlaylistViewModel extends ViewModel {
     Disposable disposable;
 
     MutableLiveData<String> playlistTitle = new MutableLiveData<>();

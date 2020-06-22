@@ -1,5 +1,6 @@
 package com.kl.blueberry.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,9 +18,18 @@ import com.kl.blueberry.R;
 import com.kl.blueberry.adapters.navigation_drawer.NavigationMenuAdapter;
 import com.kl.blueberry.api.ApiService;
 import com.kl.blueberry.databinding.ActivityMainBinding;
+import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.events.OpenActivityWithExtras;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
 import com.kl.blueberry.ui.home.HomeFragment;
+import com.kl.blueberry.ui.playlist.PlaylistActivity;
 import com.kl.blueberry.ui.profile.ProfileFragment;
+import com.kl.blueberry.ui.search.SearchActivity;
+import com.kl.blueberry.utils.ParentActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +38,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ParentActivity {
 
     @Inject
     ApiService apiService;
@@ -52,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         rvNavigationMenu.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         rvNavigationMenu.setAdapter(menuAdapter);
 
-        openFragment(new HomeFragment());
+        openFragment(new HomeFragment(apiService));
         observeViewModel();
         onClick();
 //
@@ -87,30 +97,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void onClick() {
 
-        binding.ivHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(new HomeFragment());
-                changeUIofTabs("home");
-            }
+        binding.ivHome.setOnClickListener(onClick -> {
+            openFragment(new HomeFragment(apiService));
+            changeUIofTabs("home");
         });
 
-        binding.ivProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(new ProfileFragment());
-                changeUIofTabs("profile");
-            }
+        binding.ivProfile.setOnClickListener(onClick -> {
+            openFragment(new ProfileFragment());
+            changeUIofTabs("profile");
         });
 
-        binding.ivSideMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-            }
+        binding.ivSideMenu.setOnClickListener(onClick -> {
+            binding.drawerLayout.openDrawer(GravityCompat.START);
         });
-        {
-        }
+
+        binding.ivSearch.setOnClickListener(onClick -> {
+            EventBus.getDefault().post(new OpenActivityEvent(new SearchActivity()));
+        });
     }
 
     private void changeUIofTabs(String clickedTab) {
@@ -127,4 +130,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(OpenActivityEvent openActivityEvent){
+        Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
+        startActivity(intent);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(OpenActivityWithExtras openActivityWithExtras){
+        Intent intent = new Intent(this, openActivityWithExtras.getActivity().getClass());
+        intent.putExtra("extras", openActivityWithExtras.getMessage());
+        startActivity(intent);
+    }
 }
