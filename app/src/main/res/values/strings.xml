@@ -8,4 +8,11 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
+
+    <string name="loguar_sukses">Jeni loguar me sukses!</string>
+    <string name="positive_button">Po</string>
+    <string name="negative_button">Jo</string>
+    <string name="kredencialet_gabim">Kredencialet jane gabim!</string>
+    <string name="title_name">Kujdes!</string>
+    <string name="alert_message">A jeni te sigurt qe deshironi te dilni?</string>
 </resources>
