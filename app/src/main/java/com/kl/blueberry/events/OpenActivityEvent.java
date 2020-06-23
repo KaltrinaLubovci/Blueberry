@@ -13,10 +13,6 @@ public class OpenActivityEvent {
         return activity;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
     public OpenActivityEvent(Activity activity) {
         this.activity = activity;
     }

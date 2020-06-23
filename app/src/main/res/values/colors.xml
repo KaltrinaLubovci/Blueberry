@@ -10,4 +10,5 @@
     <color name="colorLightPurple">#9e99c3</color>
     <color name="colorDarkBlue">#0C0822</color>
     <color name="colorBlue">#4C4479</color>
+    <color name="colorGrayFade">#90DBD9D9</color>
 </resources>

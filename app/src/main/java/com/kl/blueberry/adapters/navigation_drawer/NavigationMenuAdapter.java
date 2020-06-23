@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kl.blueberry.R;
+import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,13 +66,24 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
 
         ImageView ivItemIcon;
         TextView tvItemName;
+        LinearLayout llCell;
+
 
         void bindViews(MenuItems menuItem, int position){
             ivItemIcon = view.findViewById(R.id.iv_menu_item_icon);
             tvItemName = view.findViewById(R.id.tv_menu_item_name);
+            llCell = view.findViewById(R.id.ll_item_holder);
 
             ivItemIcon.setImageResource(menuItem.getMenuIcon());
             tvItemName.setText(menuItem.getMenuName());
+
+            llCell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    EventBus.getDefault().post(OpenActivityEvent());
+                    //open screens from side menu
+                }
+            });
         }
     }
 }

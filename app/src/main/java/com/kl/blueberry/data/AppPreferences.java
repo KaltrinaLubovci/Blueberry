@@ -12,4 +12,6 @@ public class AppPreferences{
     public AppPreferences(Context context1){
         context = context1;
     }
+
+
 }

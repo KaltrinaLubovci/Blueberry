@@ -15,4 +15,8 @@
     <string name="kredencialet_gabim">Kredencialet jane gabim!</string>
     <string name="title_name">Kujdes!</string>
     <string name="alert_message">A jeni te sigurt qe deshironi te dilni?</string>
+    <string name="song_artist">%1$s %2$s %3$s</string>
+    <string name="deezer">Deezer</string>
+    <string name="search">Search your favourite artist</string>
+    <string name="go_to_deezer">Go to Deezer to listen full song!</string>
 </resources>
