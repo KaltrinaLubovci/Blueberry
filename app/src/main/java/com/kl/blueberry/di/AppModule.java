@@ -18,6 +18,6 @@ public class AppModule {
     @Provides
     @Singleton
     static public AppPreferences provideSharedPreference(Application app){
-        return new AppPreferences(app);
+        return new AppPreferences(app.getApplicationContext());
     }
 }

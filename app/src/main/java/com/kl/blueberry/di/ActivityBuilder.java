@@ -4,6 +4,8 @@ import com.kl.blueberry.ui.MainActivity;
 import com.kl.blueberry.ui.home.HomeFragment;
 import com.kl.blueberry.ui.playlist.PlaylistActivity;
 import com.kl.blueberry.ui.search.SearchActivity;
+import com.kl.blueberry.ui.signin.SignInActivity;
+import com.kl.blueberry.ui.splash_screen.SplashScreenActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -17,6 +19,9 @@ abstract class ActivityBuilder {
     //put here activities that use @Inject
 
     @ContributesAndroidInjector
+    abstract SplashScreenActivity bindSplashScreen();
+
+    @ContributesAndroidInjector
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector
@@ -27,5 +32,8 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract SearchActivity bindSearchActivity();
+
+    @ContributesAndroidInjector
+    abstract SignInActivity bindSignInActivity();
 
 }
