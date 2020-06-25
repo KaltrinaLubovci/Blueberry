@@ -1,73 +1,71 @@
 package com.kl.blueberry.ui.signin;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.text.method.TransformationMethod;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.kl.blueberry.R;
+import com.kl.blueberry.data.AppPreferences;
 import com.kl.blueberry.data.Database;
 import com.kl.blueberry.databinding.SignInActivityBinding;
-import com.kl.blueberry.databinding.SignUpActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.model.register_user.User;
 import com.kl.blueberry.ui.MainActivity;
-import com.kl.blueberry.ui.sign_up.SignUpActivity;
 import com.kl.blueberry.utils.ParentActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 import static com.kl.blueberry.utils.Usage.showToast;
 
 public class SignInActivity extends ParentActivity {
-    EditText  etUserName, etPassword;
+    EditText etUserName, etPassword;
     SignInActivityBinding binding;
     String username;
     String password;
 
+    @Inject
+    AppPreferences appPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidInjection.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.sign_in_activity);
         binding.setViewModel(new SignInViewModel());
         customizeTextInput();
         onClicks();
-        registerSignin();
 
 
     }
 
-    private void onClicks(){
+    private void onClicks() {
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateData()){
-                    showToast(SignInActivity.this, "Data is ok!");
-                    EventBus.getDefault().post(new OpenActivityEvent(new MainActivity()));
+                if (validateData()) {
+                    checkUsername(username, password);
                 }
             }
         });
     }
+
     private void customizeTextInput() {
 
         EditText etEmail = binding.layoutUsername.findViewById(R.id.et_text_input);
@@ -120,7 +118,7 @@ public class SignInActivity extends ParentActivity {
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     v.clearFocus();
                 }
                 return false;
@@ -129,7 +127,7 @@ public class SignInActivity extends ParentActivity {
 
     }
 
-    private Boolean validateData(){
+    private Boolean validateData() {
         EditText etUsername = binding.layoutUsername.findViewById(R.id.et_text_input);
         username = etUsername.getEditableText().toString();
         EditText etPassword = binding.layoutPassword.findViewById(R.id.et_text_input);
@@ -142,124 +140,57 @@ public class SignInActivity extends ParentActivity {
             showToast(this, "Password field cannot be empty!");
             return false;
         } else if (username.isEmpty() && password.isEmpty()) {
-            showToast(this,"Please fill all fields!");
+            showToast(this, "Please fill all fields!");
             return false;
         } else {
-           return true;
+            return true;
         }
     }
 
-    public  void registerSignin(){
-      binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckUsername(etUserName.getText().toString(),etPassword.getText().toString());
-                /*if(etUsername.getText().toString().equals("admin") &&
-                etPassword.getText().toString().equals("admin"))
-                {
-                    Toast.makeText(Main2Activity.this,getString(R.string.loguar_sukses),
-                            Toast.LENGTH_LONG).show();
-
-
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(Main2Activity.this);
-
-                    LayoutInflater layoutInflater = getLayoutInflater();
-                    alertDialog.setView(layoutInflater.inflate(R.layout.custom_dialog_layout,null));
-                    alertDialog.setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent main3Activity = new Intent(Main2Activity.this,Main3Activity.class);
-                            main3Activity.putExtra("username",etUsername.getText().toString());
-                            startActivity(main3Activity);
-                        }
-                    });
-                    alertDialog.setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    alertDialog.show();
-
-
-                }
-                else
-                {
-                    etPassword.setError(getString(R.string.kredencialet_gabim));
-                    etPassword.requestFocus();
-                }*/
-            }
-        });
-
-
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {//btnSignIn jo shume e sigurt a osht btnLogin apo btnSignUp
-            @Override
-            public void onClick(View v) {
-                Intent intentSignup= new Intent(SignInActivity.this, SignUpActivity.class);
-                startActivity(intentSignup);
-
-            }
-        });
-    }
-
-    public void CheckUsername(String username, String password)
-    {
+    public void checkUsername(String username, String password) {
         SQLiteDatabase objDb = new Database(SignInActivity.this).getReadableDatabase();
 
-        Cursor c = objDb.query(Database.UserTable,
-                new String[]{User.ID,User.Fullname, User.Username, User.Email,User.Password},
-                User.Username+"=?",new String[]{username},"","","");
-        /*Cursor c = objDb.rawQuery("select * from "+ Databaza.PerdoruesitTable+" where "+
-                Perdoruesi.Username+" =?",new String[]{username});*/
-        if(c.getCount()==1)
-        {
-            c.moveToFirst();
-            String dbUsername = c.getString(3);
-            String dbPassword = c.getString(4);
+        try (Cursor c = objDb.query(Database.UserTable,
+                new String[]{User.ID, User.Fullname, User.Username, User.Email, User.Password},
+                User.Username + "=?", new String[]{username}, "", "", "")) {
+            if (c.getCount() == 1) {
+                c.moveToFirst();
+                String dbFullName = c.getString(1);
+                String dbUsername = c.getString(2);
+                String dbEmail = c.getString(3);
+                String dbPassword = c.getString(4);
 
-            if(username.equals(dbUsername) &&
-                    password.equals(dbPassword))
-            {
-                Toast.makeText(SignInActivity.this,getString(R.string.loguar_sukses),
-                        Toast.LENGTH_LONG).show();
+                if (username.equals(dbUsername) &&
+                        password.equals(dbPassword)) {
+                    Toast.makeText(SignInActivity.this, getString(R.string.loguar_sukses),
+                            Toast.LENGTH_LONG).show();
 
+                    appPreferences.setFullName(dbFullName);
+                    appPreferences.setUsername(dbUsername);
+                    appPreferences.setEmail(dbEmail);
+                    appPreferences.setPassword(password);
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignInActivity.this);
-
-                LayoutInflater layoutInflater = getLayoutInflater();
-                alertDialog.setView(layoutInflater.inflate(R.layout.customize_text_input,null));////// customize_text_input???
-                alertDialog.setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent signinviewmodel = new Intent(SignInActivity.this,SignInViewModel.class);
-                        signinviewmodel.putExtra("username",etUserName.getText().toString());
-                        startActivity(signinviewmodel);
-                    }
-                });
-                alertDialog.setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                alertDialog.show();
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
 
 
+                } else {
+                    showToast(this, "Given data doesn't match our records!");
+                }
+            } else {
+                showToast(this, "Given data doesn't match our records!");
             }
-            else
-            {
-                etPassword.setError(getString(R.string.kredencialet_gabim));
-                etPassword.requestFocus();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else
-        {
-            etPassword.setError(getString(R.string.kredencialet_gabim));
-            etPassword.requestFocus();
-        }
+
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(OpenActivityEvent openActivityEvent){
+    public void onEvent(OpenActivityEvent openActivityEvent) {
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
         startActivity(intent);
     }

@@ -1,9 +1,14 @@
 package com.kl.blueberry.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -17,14 +22,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kl.blueberry.R;
 import com.kl.blueberry.adapters.navigation_drawer.NavigationMenuAdapter;
 import com.kl.blueberry.api.ApiService;
+import com.kl.blueberry.data.AppPreferences;
 import com.kl.blueberry.databinding.ActivityMainBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.events.OpenActivityWithExtras;
+import com.kl.blueberry.events.OpenFragmentEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
 import com.kl.blueberry.ui.home.HomeFragment;
 import com.kl.blueberry.ui.playlist.PlaylistActivity;
 import com.kl.blueberry.ui.profile.ProfileFragment;
 import com.kl.blueberry.ui.search.SearchActivity;
+import com.kl.blueberry.ui.splash_screen.SplashScreenActivity;
 import com.kl.blueberry.utils.ParentActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,10 +50,14 @@ public class MainActivity extends ParentActivity {
 
     @Inject
     ApiService apiService;
+    @Inject
+    AppPreferences appPreferences;
     RecyclerView rvNavigationMenu;
     ActivityMainBinding binding;
     NavigationMenuAdapter menuAdapter;
     ArrayList<MenuItems> menuItemsArrList;
+    LinearLayout llLogout;
+    Boolean isHomeFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +74,30 @@ public class MainActivity extends ParentActivity {
         rvNavigationMenu.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         rvNavigationMenu.setAdapter(menuAdapter);
 
+        llLogout = binding.lNavigationMenu.findViewById(R.id.ll_logout);
+
         openFragment(new HomeFragment(apiService));
+        fillUsersDataSideMenu();
         observeViewModel();
         onClick();
-//
-//        binding.btnTest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //make api call
-//                binding.getViewModel().search(MainActivity.this, apiService, "eminem");
-//            }
-//        });
     }
 
+    private void fillUsersDataSideMenu(){
+        TextView tvFullName, tvEmail;
+        tvFullName = binding.lNavigationMenu.findViewById(R.id.tv_name);
+        tvEmail = binding.lNavigationMenu.findViewById(R.id.tv_email);
+
+        tvFullName.setText(appPreferences.getFullName());
+        tvEmail.setText(appPreferences.getEmail());
+
+    }
 
     private void openFragment(Fragment fragment) {
+        if (fragment instanceof HomeFragment){
+            isHomeFragment = true;
+        } else {
+            isHomeFragment = false;
+        }
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.rl_fragment_holder, fragment);
@@ -103,7 +124,7 @@ public class MainActivity extends ParentActivity {
         });
 
         binding.ivProfile.setOnClickListener(onClick -> {
-            openFragment(new ProfileFragment());
+            openFragment(new ProfileFragment(appPreferences));
             changeUIofTabs("profile");
         });
 
@@ -113,6 +134,28 @@ public class MainActivity extends ParentActivity {
 
         binding.ivSearch.setOnClickListener(onClick -> {
             EventBus.getDefault().post(new OpenActivityEvent(new SearchActivity()));
+        });
+
+        llLogout.setOnClickListener(onClick -> {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            LayoutInflater layoutInflater = getLayoutInflater();
+            dialogBuilder.setView(layoutInflater.inflate(R.layout.dialog_layout, null));
+            dialogBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    appPreferences.deletePrefs();
+                    EventBus.getDefault().post(new OpenActivityEvent(new SplashScreenActivity()));
+                    finish();
+                }
+            });
+            dialogBuilder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialogBuilder.show();
+
         });
     }
 
@@ -130,13 +173,38 @@ public class MainActivity extends ParentActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe
     public void onEvent(OpenActivityEvent openActivityEvent){
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
         startActivity(intent);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe
+    public void onEvent(OpenFragmentEvent event){
+        switch (event.getFragmentType()){
+            case "home":
+                if (!isHomeFragment){
+                    openFragment(new HomeFragment(apiService));
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                    binding.ivHome.callOnClick();
+                } else {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                break;
+            case "profile":
+                if (isHomeFragment){
+                    openFragment(new ProfileFragment(appPreferences));
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                    binding.ivProfile.callOnClick();
+                } else {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                break;
+
+        }
+    }
+
+    @Subscribe
     public void onEvent(OpenActivityWithExtras openActivityWithExtras){
         Intent intent = new Intent(this, openActivityWithExtras.getActivity().getClass());
         intent.putExtra("extras", openActivityWithExtras.getMessage());

@@ -5,18 +5,18 @@
     <string name="email">Email</string>
     <string name="fullname">Fullname</string>
     <string name="confirm_password">Confirm Password</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
-
-    <string name="loguar_sukses">Jeni loguar me sukses!</string>
-    <string name="positive_button">Po</string>
-    <string name="negative_button">Jo</string>
-    <string name="kredencialet_gabim">Kredencialet jane gabim!</string>
-    <string name="title_name">Kujdes!</string>
-    <string name="alert_message">A jeni te sigurt qe deshironi te dilni?</string>
+    <string name="loguar_sukses">Login succeed!</string>
     <string name="song_artist">%1$s %2$s %3$s</string>
     <string name="deezer">Deezer</string>
     <string name="search">Search your favourite artist</string>
     <string name="go_to_deezer">Go to Deezer to listen full song!</string>
+    <string name="do_you_want_to_logout">Do you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="full_name">Full Name:</string>
+    <string name="username_colon">Username:</string>
+    <string name="email_colon">Email:</string>
+    <string name="password_colon">Password:</string>
 </resources>

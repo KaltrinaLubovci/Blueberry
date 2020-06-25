@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kl.blueberry.R;
 import com.kl.blueberry.events.OpenActivityEvent;
+import com.kl.blueberry.events.OpenFragmentEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
+import com.kl.blueberry.ui.profile.ProfileFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,7 +82,15 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
             llCell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    EventBus.getDefault().post(OpenActivityEvent());
+                    switch (position){
+                        case 0:
+                            EventBus.getDefault().post(new OpenFragmentEvent("home"));
+                            break;
+                        case 1:
+                            EventBus.getDefault().post(new OpenFragmentEvent("profile"));
+                            break;
+                    }
+//                    ;
                     //open screens from side menu
                 }
             });
