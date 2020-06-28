@@ -10,7 +10,7 @@
     <string name="loguar_sukses">Login succeed!</string>
     <string name="song_artist">%1$s %2$s %3$s</string>
     <string name="deezer">Deezer</string>
-    <string name="search">Search your favourite artist</string>
+    <string name="search">Search your favourite song/artist</string>
     <string name="go_to_deezer">Go to Deezer to listen full song!</string>
     <string name="do_you_want_to_logout">Do you want to logout?</string>
     <string name="yes">Yes</string>

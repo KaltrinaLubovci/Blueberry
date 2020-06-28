@@ -16,6 +16,7 @@ import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.events.OpenFragmentEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
 import com.kl.blueberry.ui.profile.ProfileFragment;
+import com.kl.blueberry.ui.search.SearchActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -89,6 +90,8 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
                         case 1:
                             EventBus.getDefault().post(new OpenFragmentEvent("profile"));
                             break;
+                        case 2:
+                            EventBus.getDefault().post(new OpenActivityEvent(new SearchActivity()));
                     }
 //                    ;
                     //open screens from side menu

@@ -4,12 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -19,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.kl.blueberry.R;
 import com.kl.blueberry.adapters.navigation_drawer.NavigationMenuAdapter;
 import com.kl.blueberry.api.ApiService;
@@ -27,9 +26,9 @@ import com.kl.blueberry.databinding.ActivityMainBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.events.OpenActivityWithExtras;
 import com.kl.blueberry.events.OpenFragmentEvent;
+import com.kl.blueberry.events.ShowToastEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
 import com.kl.blueberry.ui.home.HomeFragment;
-import com.kl.blueberry.ui.playlist.PlaylistActivity;
 import com.kl.blueberry.ui.profile.ProfileFragment;
 import com.kl.blueberry.ui.search.SearchActivity;
 import com.kl.blueberry.ui.splash_screen.SplashScreenActivity;
@@ -37,7 +36,6 @@ import com.kl.blueberry.utils.ParentActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +43,9 @@ import java.util.Arrays;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.kl.blueberry.utils.Usage.showToast;
 
 public class MainActivity extends ParentActivity {
 
@@ -54,6 +55,7 @@ public class MainActivity extends ParentActivity {
     AppPreferences appPreferences;
     RecyclerView rvNavigationMenu;
     ActivityMainBinding binding;
+    CircleImageView ivProfile;
     NavigationMenuAdapter menuAdapter;
     ArrayList<MenuItems> menuItemsArrList;
     LinearLayout llLogout;
@@ -75,25 +77,28 @@ public class MainActivity extends ParentActivity {
         rvNavigationMenu.setAdapter(menuAdapter);
 
         llLogout = binding.lNavigationMenu.findViewById(R.id.ll_logout);
-
+        ivProfile = binding.lNavigationMenu.findViewById(R.id.circle_iv_profile);
         openFragment(new HomeFragment(apiService));
         fillUsersDataSideMenu();
         observeViewModel();
         onClick();
     }
 
-    private void fillUsersDataSideMenu(){
+    private void fillUsersDataSideMenu() {
         TextView tvFullName, tvEmail;
         tvFullName = binding.lNavigationMenu.findViewById(R.id.tv_name);
         tvEmail = binding.lNavigationMenu.findViewById(R.id.tv_email);
-
         tvFullName.setText(appPreferences.getFullName());
         tvEmail.setText(appPreferences.getEmail());
+
+        if (appPreferences.getImagePath() != null) {
+            Glide.with(this).load(appPreferences.getImagePath()).into(ivProfile);
+        }
 
     }
 
     private void openFragment(Fragment fragment) {
-        if (fragment instanceof HomeFragment){
+        if (fragment instanceof HomeFragment) {
             isHomeFragment = true;
         } else {
             isHomeFragment = false;
@@ -105,7 +110,7 @@ public class MainActivity extends ParentActivity {
     }
 
     private void observeViewModel() {
-        binding.getViewModel().menuItemsList.observe(this, new Observer<MenuItems[]>(){
+        binding.getViewModel().menuItemsList.observe(this, new Observer<MenuItems[]>() {
 
             @Override
             public void onChanged(MenuItems[] menuItems) {
@@ -174,16 +179,16 @@ public class MainActivity extends ParentActivity {
     }
 
     @Subscribe
-    public void onEvent(OpenActivityEvent openActivityEvent){
+    public void onEvent(OpenActivityEvent openActivityEvent) {
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
         startActivity(intent);
     }
 
     @Subscribe
-    public void onEvent(OpenFragmentEvent event){
-        switch (event.getFragmentType()){
+    public void onEvent(OpenFragmentEvent event) {
+        switch (event.getFragmentType()) {
             case "home":
-                if (!isHomeFragment){
+                if (!isHomeFragment) {
                     openFragment(new HomeFragment(apiService));
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                     binding.ivHome.callOnClick();
@@ -192,7 +197,7 @@ public class MainActivity extends ParentActivity {
                 }
                 break;
             case "profile":
-                if (isHomeFragment){
+                if (isHomeFragment) {
                     openFragment(new ProfileFragment(appPreferences));
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                     binding.ivProfile.callOnClick();
@@ -205,9 +210,15 @@ public class MainActivity extends ParentActivity {
     }
 
     @Subscribe
-    public void onEvent(OpenActivityWithExtras openActivityWithExtras){
+    public void onEvent(OpenActivityWithExtras openActivityWithExtras) {
         Intent intent = new Intent(this, openActivityWithExtras.getActivity().getClass());
         intent.putExtra("extras", openActivityWithExtras.getMessage());
         startActivity(intent);
     }
+
+    @Subscribe
+    public void onEvent(ShowToastEvent event) {
+        showToast(this, event.getMessage());
+    }
+
 }

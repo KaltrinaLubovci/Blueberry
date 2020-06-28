@@ -112,25 +112,13 @@ dependencies {
     //google sdk
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.squareup.okhttp:okhttp:2.6.0'
-    // Google Api Client library and Android extension
-//    implementation 'com.google.api-client:google-api-client:1.22.0'
-//    implementation 'com.google.api-client:google-api-client-android:1.22.0'
 
-    implementation 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
 
     //pick image from gallery or take a new picture
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
 
     //get photo orientation
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
-
-    //google maps service
-    //google maps api key should be paid if app goes to production, because it will have a lot of requests
-    implementation "com.google.android.gms:play-services-maps:17.0.0"
-    implementation 'com.google.android.libraries.places:places:2.2.0'
-
-    //google maps clustering
-//    implementation 'com.google.maps.android:android-maps-utils:1.0.0'
 
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
