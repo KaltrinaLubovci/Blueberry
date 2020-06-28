@@ -1,4 +1,4 @@
-package com.kl.blueberry.ui.search;
+package com.kl.blueberry.model.search_music;
 
 import com.squareup.moshi.Json;
 

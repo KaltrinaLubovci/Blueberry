@@ -1,7 +1,6 @@
 package com.kl.blueberry.model.search_music;
 
 import com.kl.blueberry.model.playlist.ArtistResponse;
-import com.kl.blueberry.ui.search.AlbumResponse;
 import com.squareup.moshi.Json;
 
 /**

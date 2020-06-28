@@ -44,30 +44,8 @@
                 android:textColor="@color/colorDarkBlue"
                 android:textSize="18sp" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/tv_go_to_deezer"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_alignParentEnd="true"-->
-            <!--                android:background="@drawable/rounded_corners_bg_solid_5dp"-->
-            <!--                android:textColor="@color/colorWhite"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                android:padding="10dp"-->
-            <!--                android:text="@string/deezer"-->
-            <!--                />-->
         </RelativeLayout>
 
-
-        <!--        <RelativeLayout-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="0dp">-->
-
-        <!--            <WebView-->
-        <!--                android:id="@+id/webview_deezer"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent" />-->
-
-        <!--        </RelativeLayout>-->
 
         <View
             android:id="@+id/view_breakline"

@@ -8,15 +8,20 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
+import com.kl.blueberry.data.AppPreferences;
 import com.kl.blueberry.data.Database;
+import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.model.register_user.User;
+import com.kl.blueberry.ui.MainActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Kaltrina Lubovci on 09,June,2020
  */
 public class SignUpViewModel extends ViewModel {
 
-    public void registerUser(Context context, String fullName, String username, String email, String password) {
+    public void registerUser(Context context, AppPreferences appPreferences, String fullName, String username, String email, String password) {
         ContentValues cv = new ContentValues();
         cv.put(User.Fullname, fullName);
         cv.put(User.Username, username);
@@ -30,6 +35,11 @@ public class SignUpViewModel extends ViewModel {
             if (retValue > 0) {
                 Toast.makeText(context, "ID inserted: " + retValue,
                         Toast.LENGTH_LONG).show();
+                appPreferences.setFullName(fullName);
+                appPreferences.setUsername(username);
+                appPreferences.setEmail(email);
+                appPreferences.setPassword(password);
+                EventBus.getDefault().post(new OpenActivityEvent(new MainActivity()));
             }
         } catch (Exception ex) {
             Log.e("excep", ex.getMessage());

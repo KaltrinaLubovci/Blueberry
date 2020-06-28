@@ -10,11 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.databinding.DataBindingUtil;
 import com.kl.blueberry.R;
+import com.kl.blueberry.data.AppPreferences;
 import com.kl.blueberry.databinding.SignUpActivityBinding;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.utils.ParentActivity;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 import static com.kl.blueberry.utils.Usage.showToast;
 
 public class SignUpActivity extends ParentActivity {
@@ -24,10 +30,13 @@ public class SignUpActivity extends ParentActivity {
     String fullName, username, email, password, confirmPassword;
 
     SignUpActivityBinding binding;
+    @Inject
+    AppPreferences appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidInjection.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.sign_up_activity);
         binding.setViewModel(new SignUpViewModel());
         init();
@@ -241,7 +250,7 @@ public class SignUpActivity extends ParentActivity {
             public void onClick(View v) {
                 if (validateFields()) {
                     showToast(SignUpActivity.this, "Success!");
-                    binding.getViewModel().registerUser(SignUpActivity.this, fullName, username, email, password);
+                    binding.getViewModel().registerUser(SignUpActivity.this, appPreferences, fullName, username, email, password);
                 }
             }
         });
@@ -250,6 +259,9 @@ public class SignUpActivity extends ParentActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OpenActivityEvent openActivityEvent) {
         Intent intent = new Intent(this, openActivityEvent.getActivity().getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

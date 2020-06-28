@@ -4,6 +4,7 @@ import com.kl.blueberry.ui.MainActivity;
 import com.kl.blueberry.ui.home.HomeFragment;
 import com.kl.blueberry.ui.playlist.PlaylistActivity;
 import com.kl.blueberry.ui.search.SearchActivity;
+import com.kl.blueberry.ui.sign_up.SignUpActivity;
 import com.kl.blueberry.ui.signin.SignInActivity;
 import com.kl.blueberry.ui.splash_screen.SplashScreenActivity;
 
@@ -35,5 +36,8 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract SignInActivity bindSignInActivity();
+
+    @ContributesAndroidInjector
+    abstract SignUpActivity bindSignUpActivity();
 
 }

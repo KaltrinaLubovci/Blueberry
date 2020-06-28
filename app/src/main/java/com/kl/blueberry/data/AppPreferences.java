@@ -13,6 +13,7 @@ public class AppPreferences{
     private final String EMAIL = "email";
     private final String PASSWORD = "password";
     private final String USERNAME = "username";
+    private final String IMAGE_PATH = "image_path";
     private String PREFS_FILENAME = "com.kl.blueberry";
     private SharedPreferences sharedPreferences;
 
@@ -45,6 +46,9 @@ public class AppPreferences{
     }
     public void setPassword(String password) { sharedPreferences.edit().putString(PASSWORD, password).apply();}
 
+    String imagePath;
+    public String getImagePath() { return sharedPreferences.getString(IMAGE_PATH, null);}
+    public void setImagePath(String imagePath) { sharedPreferences.edit().putString(IMAGE_PATH, imagePath).apply(); }
 
     public void deletePrefs(){
         sharedPreferences.edit().clear().apply();

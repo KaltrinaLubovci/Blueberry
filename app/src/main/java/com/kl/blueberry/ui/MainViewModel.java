@@ -31,7 +31,7 @@ public class MainViewModel extends ViewModel {
         menuItemsList = new MutableLiveData<MenuItems[]>();
         MenuItems[] menuList = {new MenuItems("Home", R.drawable.home_icon),
                 new MenuItems("Profile", R.drawable.profile_icon),
-                new MenuItems("Help", R.drawable.help_icon)};
+                new MenuItems("Search", R.drawable.search_blue)};
         menuItemsList.setValue(menuList);
     }
 
