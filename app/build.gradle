@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.kl.blueberry"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -33,12 +33,11 @@ android {
 }
 
 
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -98,7 +97,7 @@ dependencies {
 
     // Add the Firebase SDK for Crashlytics.
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
 
     //Room Database
     implementation "androidx.room:room-runtime:$room_version"
@@ -110,31 +109,16 @@ dependencies {
     //autosize text to fit edittext
     implementation 'com.github.ViksaaSkool:AutoFitEditText:53238e2d29'
 
-    //facebook sdk
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-
     //google sdk
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.squareup.okhttp:okhttp:2.6.0'
-    // Google Api Client library and Android extension
-    implementation 'com.google.api-client:google-api-client:1.22.0'
-    implementation 'com.google.api-client:google-api-client-android:1.22.0'
 
-    implementation 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
 
     //pick image from gallery or take a new picture
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
 
     //get photo orientation
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
-
-    //google maps service
-    //google maps api key should be paid if app goes to production, because it will have a lot of requests
-    implementation "com.google.android.gms:play-services-maps:17.0.0"
-    implementation 'com.google.android.libraries.places:places:2.2.0'
-
-    //google maps clustering
-//    implementation 'com.google.maps.android:android-maps-utils:1.0.0'
 
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
