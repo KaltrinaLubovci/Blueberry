@@ -25,7 +25,7 @@ public class SearchViewModel extends ViewModel {
     MutableLiveData<List<SearchMusicDataResponse>> musicResponseList = new MutableLiveData<>();
 
     void search(Context context, ApiService apiService, String singerName) {
-        disposable = apiService.searchSinger("api_key_goes_here", singerName)
+        disposable = apiService.searchSinger("api_goes_here", singerName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
