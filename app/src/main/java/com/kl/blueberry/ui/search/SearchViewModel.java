@@ -34,7 +34,7 @@ public class SearchViewModel extends ViewModel {
                     musicResponseList.setValue(Arrays.asList(playlistTracksList));
                 }, error -> {
                     error.getStackTrace();
-                    Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
                 });
 
     }
