@@ -15,7 +15,7 @@ import com.kl.blueberry.R;
 import com.kl.blueberry.events.OpenActivityEvent;
 import com.kl.blueberry.events.OpenFragmentEvent;
 import com.kl.blueberry.model.navigation_drawer.MenuItems;
-import com.kl.blueberry.ui.aboutUs.AboutUsActivity;
+import com.kl.blueberry.ui.profile.ProfileFragment;
 import com.kl.blueberry.ui.search.SearchActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by Kaltrina Lubovci on 13,June,2020
  */
-public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAdapter.NavigationMenuViewHolder> {
+public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAdapter.NavigationMenuViewHolder>{
 
     private Context context;
     private ArrayList<MenuItems> menuItemsList;
@@ -36,7 +36,7 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
         this.menuItemsList = menuItemsList;
     }
 
-    public void setMenuData(List<MenuItems> newMenuItems) {
+    public void setMenuData(List<MenuItems> newMenuItems){
         menuItemsList.clear();
         menuItemsList.addAll(newMenuItems);
         notifyDataSetChanged();
@@ -59,9 +59,8 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
         return menuItemsList.size();
     }
 
-    class NavigationMenuViewHolder extends RecyclerView.ViewHolder {
+    class NavigationMenuViewHolder extends RecyclerView.ViewHolder{
         View view;
-
         public NavigationMenuViewHolder(@NonNull View itemView) {
             super(itemView);
             this.view = itemView;
@@ -73,7 +72,7 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
         LinearLayout llCell;
 
 
-        void bindViews(MenuItems menuItem, int position) {
+        void bindViews(MenuItems menuItem, int position){
             ivItemIcon = view.findViewById(R.id.iv_menu_item_icon);
             tvItemName = view.findViewById(R.id.tv_menu_item_name);
             llCell = view.findViewById(R.id.ll_item_holder);
@@ -84,7 +83,7 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
             llCell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (position) {
+                    switch (position){
                         case 0:
                             EventBus.getDefault().post(new OpenFragmentEvent("home"));
                             break;
@@ -93,10 +92,6 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
                             break;
                         case 2:
                             EventBus.getDefault().post(new OpenActivityEvent(new SearchActivity()));
-                            break;
-                        case 3:
-                            EventBus.getDefault().post(new OpenActivityEvent(new AboutUsActivity()));
-                            break;
                     }
 //                    ;
                     //open screens from side menu
