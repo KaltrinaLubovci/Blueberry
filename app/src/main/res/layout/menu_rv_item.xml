@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    >
 
     <LinearLayout
         android:id="@+id/ll_item_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="17dp"
-        android:paddingBottom="17dp"
-        android:weightSum="1">
-
+        android:padding="17dp">
         <ImageView
             android:id="@+id/iv_menu_item_icon"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:src="@drawable/home_on_icon" />
+            android:src="@drawable/home_on_icon"/>
 
         <TextView
             android:id="@+id/tv_menu_item_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
-            android:fontFamily="@font/roboto_bold"
             android:text="Home"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_bold"
             android:textColor="@color/colorDarkBlue"
-            android:textSize="18sp" />
+            android:layout_marginStart="10dp"/>
 
     </LinearLayout>
 
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_item_holder"
+        android:background="@color/colorDarkBlue"/>
 </RelativeLayout>

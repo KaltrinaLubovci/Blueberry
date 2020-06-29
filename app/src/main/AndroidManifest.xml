@@ -3,27 +3,21 @@
     package="com.kl.blueberry">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".di.App"
         android:allowBackup="true"
         android:icon="@mipmap/blueberry_icon"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/blueberry_icon"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.aboutUs.AboutUsActivity"></activity>
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.playlist.PlaylistActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.playlist.PlaylistActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.sign_up.SignUpActivity"
             android:screenOrientation="portrait"
@@ -34,7 +28,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.splash_screen.SplashScreenActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -44,7 +38,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity android:name=".utils.ParentActivity" />
 
         <meta-data

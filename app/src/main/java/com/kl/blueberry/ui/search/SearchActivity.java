@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.kl.blueberry.R;
 import com.kl.blueberry.adapters.search.SearchAdapter;
 import com.kl.blueberry.api.ApiService;
@@ -72,18 +71,12 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    private void showSnackBar(){
-        Snackbar snackbar = Snackbar.make(binding.coordinatorLayout, "Please wait ...", Snackbar.LENGTH_SHORT);
-        snackbar.show();
-    }
-
     private void onClicks(){
         binding.ivBack.setOnClickListener(onClick -> finish());
 
         binding.ivSearchNow.setOnClickListener(onClick -> {
 
             if (validateData()){
-                showSnackBar();
                 binding.getViewModel().search(SearchActivity.this, apiService, artistName);
             }
             hideKeyboard(binding.etSearch);
